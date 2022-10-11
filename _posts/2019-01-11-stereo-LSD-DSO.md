@@ -24,7 +24,7 @@ LSD（Large-Scale Direct Monocular SLAM）的优化中没有关键点的深度�
 [^stereoLSD]:Jakob Engel: Large-Scale Direct SLAM with Stereo Cameras (2015)
 [^svo]: Jakob Engel: Semi-dense visual odometry for a monocularc amera (2013)
 
-### 双目的加入
+### LSD中双目的加入
 
 论文里提到两种多目相结合，达到既可以恢复尺度，又可以适应多种环境变化的效果：
 
@@ -47,7 +47,7 @@ LSD（Large-Scale Direct Monocular SLAM）的优化中没有关键点的深度�
 
 [^stereoDSO]: Rui Wang: Large-Scale Direct Sparse Visual Odometry with Stereo Cameras (2017)
 
-### 双目的加入
+### DSO中双目的加入
 
 与stereo-LSD相同的是，stereo-DSO中也同时使用static stereo和temporal stereo。由于双目相机的加入，初始化时不用采用随机深度，第一帧图像即可得到深度估计，加快了初始化的速度，但是对后续的tack部分没有做修改。
 
@@ -59,4 +59,3 @@ stereo-DSO在滑动窗口的优化方程中，加入了static stereo的误差项
 
 - 双目的极线匹配采用3x5的NCC(normalized cross correlation)。
 - 对新关键帧提取关键点时，不再采用正方形的划分区域，而是用与图像比例适应的区域，这样对于kitti这种图像长宽比例比较大的图像比较有利。
-
