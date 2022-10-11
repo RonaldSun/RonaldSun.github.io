@@ -3,7 +3,7 @@ title: 双目直接法SLAM：stereo-LSD & stereo-DSO
 date: 2019-01-11 13:10:00 +0800
 categories: [论文, SLAM]
 tags: [SLAM, 论文]
-img_path: /_posts/img
+img_path: /assets/img/
 pin: true
 ---
 
