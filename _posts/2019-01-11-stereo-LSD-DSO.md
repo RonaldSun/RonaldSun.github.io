@@ -4,6 +4,7 @@ date: 2019-01-11 13:10:00 +0800
 categories: [论文, SLAM]
 tags: [SLAM, 论文]
 img_path: /assets/img/
+math: true
 pin: true
 ---
 
