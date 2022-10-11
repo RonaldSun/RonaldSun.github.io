@@ -1,6 +1,6 @@
 ---
 title: 常用工程命令
-date: 2018-05-22 10:00:00
+date: 2018-05-22 10:00:00 +0800
 categories: [编程]
 tags: [编程]
 pin: true

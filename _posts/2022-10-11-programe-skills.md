@@ -1,6 +1,6 @@
 ---
 title: C++工程技巧
-date: 2022-10-11 18:20:27
+date: 2022-10-11 19:10:15 +0800
 categories: [编程]
 tags: [编程, C++]
 pin: true
@@ -36,9 +36,6 @@ pin: true
 
    ```json
    {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
