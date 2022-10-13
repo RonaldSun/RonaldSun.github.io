@@ -58,7 +58,14 @@ pin: true
 
 - 基础教程: http://www.ruanyifeng.com/blog/2018/02/docker-tutorial.html
 - 删除所有停止容器： `docker rm $(sudo docker ps -a -q)`
-- 运行docker: `docker exec -ti 430f758bb83c bash`
+- 运行docker: `docker exec -ti 430f758bb83c bash`， 启动docker时一些常用的参数：
+  - `--privileged=true` docker中拥有root权限
+  - `--name [xxx]` 设置docker名字
+  - `-v local_path:docker_path`把docker外的目录挂在到docker里面，可以重复多条
+  - `-p local_port:docker_port`把docker外的端口映射到docker里的端口，例如如果想通过ssh直接连接到docker中，需要将docker中的22号端口映射到docker外的某个端口`local_port`，然后就可以`ssh -p local_port `连接到docker中
+    - ps: 使用端口映射时不能开启`--network host`选项，`--network host`会把所有的docker端口和外面的端口共用
+
+- `sudo docker system df -v`和 `sudo docker system df`用于查看各个docker的存储占用情况
 
 ## ubuntu操作
 
