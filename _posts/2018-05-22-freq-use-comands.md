@@ -83,4 +83,5 @@ pin: true
 
 ## ros
 
+- 可视化rosbag时间戳：`rqt_bag ***.bag`
 - 找pkg: https://answers.ros.org/question/288501/ros2-equivalent-of-rospackagegetpath/
