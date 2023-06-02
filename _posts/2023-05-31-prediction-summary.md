@@ -94,6 +94,13 @@ MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)�
 
 ## Scene Transformer(2022 waymo)
 
+主要的创新点：
+
+1. 在统一的坐标系下进行预测，而不是以每个预测目标作为坐标系中心。这样做的核心目的是让模型一次能输出M组所有目标的轨迹，这样可以保证这些轨迹互不冲突，而单独预测每辆车的M条轨迹失去了与其他预测结果的关联性；
+2. factorized attention: 把时间、agent维度分别做attention。对每个轨迹的时间序列单独做self-attension，然后对agents维度做self-attention，这两个步骤交替进行来获得时间和agent之间的关联；
+3. 通过对GT进行不同的mask方式，实现不同的任务
+
+![scenetransformer](scene_transformer.png)
 
 ## WayFromer(2022 waymo)
 
