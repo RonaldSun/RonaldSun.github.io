@@ -104,4 +104,10 @@ MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)�
 
 ## WayFromer(2022 waymo)
 
+1. 使用了两种transformer中的机制，self-att和cross-att
+2. 对比了三种scene encoder: late fusion、early fusion、hierarchical fusion
+3. 对比了两种attention方式：factorized attention和lattent query attention，两种都是为了提升计算效率；并且factorized attention中也尝试了不同的组合顺序
+
+轨迹的预测方式与multipath++一样。
+
 ## QCNet(2023 CityU)
