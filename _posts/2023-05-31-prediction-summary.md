@@ -7,9 +7,7 @@ img_path: /assets/img/prediction_summary/
 pin: true
 ---
 
-## Prediction方法总结
-
-### VectorNet(2020 waymo)
+## VectorNet(2020 waymo)
 
 ![VectorNet](vector_net.png)
 
@@ -25,7 +23,7 @@ for a subset of polyline nodes
 
 ![ablationtable2](ablation_table2.png)
 
-#### 实现过中的问题
+### 实现过中的问题
 
 实现的时候会遇到一个问题：每个地图包含的polyline数量不同，每个polyline的点数不同，他车轨迹数量、点数也各不相同。这个问题导致模型无法同时infer一个batch的数据。
 
@@ -37,9 +35,9 @@ for a subset of polyline nodes
 
 该方法同样适用于其他使用vector map encoder的模型。
 
-### TNT(2020 waymo) && DenseTNT(2021 Tsinghua)
+## TNT(2020 waymo) && DenseTNT(2021 Tsinghua)
 
-#### TNT
+### TNT
 
 ![tntmodel](tnt_model.png)
 
@@ -58,7 +56,7 @@ TNT(Target-driveN Trajectory Prediction)采用和VectorNet一致的context encod
 
 TNT通过两层MLP预测M个轨迹，通过轨迹和GT的距离来对每条轨迹的得分进行监督。infer阶段采用了NMS，并输出分数最大的K条轨迹。
 
-#### DenseTNT
+### DenseTNT
 
 与TNT最大的不同：
 
@@ -69,7 +67,7 @@ DenseTNT会先用一个分类模型对Lane进行打分，然后在挑选出的�
 
 轨迹生成部分和TNT一样。
 
-### MultiPath(2019 waymo) && MultiPath++(2021 waymo)
+## MultiPath(2019 waymo) && MultiPath++(2021 waymo)
 
 MultiPath++主要基于MultiPath做了以下改进：
 
@@ -94,9 +92,9 @@ MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)�
 2. 使用学习的anchor有稳定的性能提升
 3. 模型直接预测原始的坐标的精度最高，但同时带来的问题是存在一些物理不合理的轨迹，例如转弯半径过小
 
-### Scene Transformer(2022 waymo)
-在
+## Scene Transformer(2022 waymo)
 
-### WayFromer(2022 waymo)
 
-### QCNet(2023 CityU)
+## WayFromer(2022 waymo)
+
+## QCNet(2023 CityU)
