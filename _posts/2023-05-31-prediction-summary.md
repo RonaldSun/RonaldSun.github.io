@@ -108,6 +108,25 @@ MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)�
 2. 对比了三种scene encoder: late fusion、early fusion、hierarchical fusion
 3. 对比了两种attention方式：factorized attention和lattent query attention，两种都是为了提升计算效率；并且factorized attention中也尝试了不同的组合顺序
 
+![wayformerencoder](wayformer_encoder.png)
+
 轨迹的预测方式与multipath++一样。
 
+ablation study中，三种scene encoder的效果以及三种attention方式的效果如下图。sequential, interleaved两种facotrized方式效果差不多。整体上看，hierarchical fusion+latent query最优。
+
+![wayformer_encoder_ablation](wayformer_encoder_ablation.png)
+![wayformer_attention](wayformer_attention.png)
+![wayformer_latent_query](wayformer_latent_query.png)
+
 ## QCNet(2023 CityU)
+
+以一种优雅的方式解决了scene-centric和agent-centric这两种方式的弊端，并且可以复用历史数据的特征，极大提升了计算效率。
+
+核心的坐标表示和scene encode方法：
+
+1. agent encoder中使用的状态量都转换到当前时间所在的local坐标系，计算相对上一时刻的位移量（转换到了极坐标系，并且用了傅里叶特征）、速度、角度、时间等等；
+2. cross-attention的时候，为了区别两个要素的坐标系，计算key和value的时候concat两个要素的相对位置
+
+![QCNet](QCNet.png)
+
+因为每次cross-att只会用附近的context，但是有的prediction horizon很长，因此使用了循环query的方式来解决。
