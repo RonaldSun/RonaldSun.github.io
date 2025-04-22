@@ -3,13 +3,12 @@ title: Prediction方法总结
 date: 2023-05-31 20:03:57 +0800
 categories: [论文, prediction]
 tags: [论文, prediction]
-img_path: /assets/img/prediction_summary/
 pin: true
 ---
 
 ## VectorNet(2020 waymo)
 
-![VectorNet](vector_net.png)
+![VectorNet](/assets/img/prediction_summary/vector_net.png)
 
 第一个提出通过矢量化的方式来编码地图和轨迹等context信息，通过PointNet提取每个地图要素的特征，然后通过self-attention的GNN来获得最终的地图编码。用了一个MLP作为decoder来预测轨迹。
 
@@ -21,7 +20,7 @@ for a subset of polyline nodes
 
 上述这个操作在Ablation study中展示出会稳定提升轨迹预测的性能。
 
-![ablationtable2](ablation_table2.png)
+![ablationtable2](/assets/img/prediction_summary/ablation_table2.png)
 
 ### 实现过中的问题
 
@@ -39,7 +38,7 @@ for a subset of polyline nodes
 
 ### TNT
 
-![tntmodel](tnt_model.png)
+![tntmodel](/assets/img/prediction_summary/tnt_model.png)
 
 TNT(Target-driveN Trajectory Prediction)采用和VectorNet一致的context encoder，与vectorNet最大的不同是提出了一种多模态轨迹预测的范式。
 
@@ -52,7 +51,7 @@ TNT(Target-driveN Trajectory Prediction)采用和VectorNet一致的context encod
 
 上述过程类似与2D检测中的anchor和bbox回归，另外上述的offset实际上是假设为一个方差为1的高斯分布的均值。在上述第1步的anchor选取时，针对车辆和行人做了两种不同的选取方式:
 
-![tntanchors](tnt_anchors.png)
+![tntanchors](/assets/img/prediction_summary/tnt_anchors.png)
 
 TNT通过两层MLP预测M个轨迹，通过轨迹和GT的距离来对每条轨迹的得分进行监督。infer阶段采用了NMS，并输出分数最大的K条轨迹。
 
@@ -84,7 +83,7 @@ MultiPath++输出的N条轨迹也会通过一个分类网络来打分。
 
 MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)，而多个regression head输出的轨迹看做从这个GMM中的多个采样样本，通过EM来估计出最终的GMM分布。
 
-![multipathablation](multipath++_ablation.png)
+![multipathablation](/assets/img/prediction_summary/multipath++_ablation.png)
 
 消融实验如上图，比较值得注意的点：
 
@@ -100,7 +99,7 @@ MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)�
 2. factorized attention: 把时间、agent维度分别做attention。对每个轨迹的时间序列单独做self-attension，然后对agents维度做self-attention，这两个步骤交替进行来获得时间和agent之间的关联；
 3. 通过对GT进行不同的mask方式，实现不同的任务
 
-![scenetransformer](scene_transformer.png)
+![scenetransformer](/assets/img/prediction_summary/scene_transformer.png)
 
 ## WayFromer(2022 waymo)
 
@@ -108,15 +107,15 @@ MultiPath++把最终输出的k条轨迹看做一个Gaussian Mixture Model(GMM)�
 2. 对比了三种scene encoder: late fusion、early fusion、hierarchical fusion
 3. 对比了两种attention方式：factorized attention和lattent query attention，两种都是为了提升计算效率；并且factorized attention中也尝试了不同的组合顺序
 
-![wayformerencoder](wayformer_encoder.png)
+![wayformerencoder](/assets/img/prediction_summary/wayformer_encoder.png)
 
 轨迹的预测方式与multipath++一样。
 
 ablation study中，三种scene encoder的效果以及三种attention方式的效果如下图。sequential, interleaved两种facotrized方式效果差不多。整体上看，hierarchical fusion+latent query最优。
 
-![wayformer_encoder_ablation](wayformer_encoder_ablation.png)
-![wayformer_attention](wayformer_attention.png)
-![wayformer_latent_query](wayformer_latent_query.png)
+![wayformer_encoder_ablation](/assets/img/prediction_summary/wayformer_encoder_ablation.png)
+![wayformer_attention](/assets/img/prediction_summary/wayformer_attention.png)
+![wayformer_latent_query](/assets/img/prediction_summary/wayformer_latent_query.png)
 
 ## QCNet(2023 CityU)
 
@@ -127,6 +126,6 @@ ablation study中，三种scene encoder的效果以及三种attention方式的�
 1. agent encoder中使用的状态量都转换到当前时间所在的local坐标系，计算相对上一时刻的位移量（转换到了极坐标系，并且用了傅里叶特征）、速度、角度、时间等等；
 2. cross-attention的时候，为了区别两个要素的坐标系，计算key和value的时候concat两个要素的相对位置
 
-![QCNet](QCNet.png)
+![QCNet](/assets/img/prediction_summary/QCNet.png)
 
 因为每次cross-att只会用附近的context，但是有的prediction horizon很长，因此使用了循环query的方式来解决。

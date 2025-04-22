@@ -4,7 +4,6 @@ title: DETR系列总结
 date: 2025-04-22 19:51:23 +0800
 categories: [论文, detr]
 tags: [论文, detr]
-img_path: /assets/img/detr_summary/
 pin: true
 ---
 
@@ -29,4 +28,4 @@ decoder中，每一层会回归bbox的offset，更新ref point的位置输入到
 
 在第一阶段，Encoder输出的FPN中的每个pixel都作为query直接预测一个bbox，取topk的bbox和对应的content feature，作为后续decoder的query。训练的时候应该还是一起训练的，第一阶段也会和gt做二分图匹配。
 
-![deformable](deformable_detr_ablation.jpg)
+![deformable](/assets/img/detr_summary/deformable_detr_ablation.jpg)
