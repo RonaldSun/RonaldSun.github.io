@@ -16,6 +16,8 @@ pin: true
 1. 预测的bbox和GT匹配时，既考虑了bbox的loss，也考虑了类别的loss；但是匹配用的Loss和监督Loss不完全一致；
 2. decoder中添加了辅助loss，具体来说，decoder的每一层都会进行预测、和gt匹配、计算loss的过程，其中预测头FFN是共享的。
 
+DETR最大的问题是训练收敛速度太慢，后面一系列论文通过各种方式改进这个问题。
+
 ## Deformable DETR(2021 SenseTime)
 
 原始的DETR有以下问题：
@@ -85,3 +87,43 @@ DAB:Dynamic anchor boxes
 ![DAB_detr_math1](/assets/img/detr_summary/dab_detr_math.png)
 
 应该算是condition detr的改进，相同模型结构下提升1~2%的mAP。
+
+## DN—DETR（2022 HKUST）
+
+这篇文章指出DETR收敛慢还有一个原因是二分图匹配导致的，特别是训练的初期，匹配的结果是非常不稳定的，同一个query在不同的epoch会匹配上不同的GT，导致模型无法有效的学习到如何正确的回归bbox的数值。因此，在训练过程中，提出了一个denoising的方法来辅助训练bbox的回归过程：
+
+- 训练过程中，一部分query还是跟之前一样，与GT匈牙利匹配、计算loss，另一部分query由GT加噪声生成（同一个GT会生成多个query），不进行匹配，直接回归；
+- 在DAB-DETR的基础上，把content query替换成了class embeding和一个indicator(表示query属于正常的还是通过gt添加的);
+- 做query的self-attention时，添加了一个mask矩阵，防止不同类型的query交换信息
+
+最终在DAB-DETR的基础上，又提升了接近2%的mAP。
+
+## DINO（2022 HKUST）
+
+可以看成是结合了各种改进方式的一个方法，主要包括三个改进方面：
+
+1. Contrastive DeNoising Training
+   - 之前的DN-DETR里面，DN query全部都是正样本，导致背景类别没有很好的监督；
+   - 添加了一个更大的噪声参数，在GT的基础上生成偏差加大的bbox，作为样本来监督CND query，让模型学会把某一些query的类型判断为背景
+
+2. Mixed query selection
+   - 参考Two-Stage Deformable DETR的做法，使用encoder的feature直接预测bbox，然后选topk作为后续query;
+   - 不同的点在与，只使用bbox作为anchor信息，content feature是一个新的embeding，而不继承encoder的feautre
+
+3. Look Forward Twice
+   - bbox refine的时候，每一层的loss会影响两层的decoder参数
+
+这一套组合改进下来，只需要24个epoch，就能达到SOTA的性能指标。从消融实验来看，每个改进带来0.5%左右的AP提升。
+
+![DAB_detr_math1](/assets/img/detr_summary/dino_ablation.png)
+
+## Group DETR(2023 Baidu)
+
+在训练阶段，把query复制k-1份，形成k组query，每一组都和GT匹配、计算loss，每一组共享相同的decoder；预测阶段只用第一组query来进行。
+相当于做了数据增强，同样一份数据会产生更多样的loss来监督模型收敛。最终可以带来1%左右的AP提升。
+
+## Co-DETR
+
+DETRs with Collaborative Hybrid Assignments Training。
+
+为了加强对encoder的训练，使用二阶段检测器的anchor generator做监督，添加了ATSS\Faster RCNN的anchor Head辅助训练。另外positive坐标和encoder的feature被编码成query用来回归GT。
