@@ -19,9 +19,15 @@ Per-Pixel Classification is Not All You Need for Semantic Segmentation.
 
 inference的方法：
 
-1. 对于一般的实例分割，用class概率乘以mask概率，最大的那个就是pixel所属的类别；
+1. 对于一般的情况，特别是实例分割、全景分割，用class概率乘以mask概率，最大的那个就是pixel所属的类别；
 2. 对于语义分割，不是取最大的，而是取所有mask求和最大的那个类别，这么做是因为每个像素都属于某一个类别；
 
 需要注意，同一个像素在不同instance之间没有用softmax。
 
-## Mask2Former
+## Mask2Former（2022 Facebook AI）
+
+1. 把mask运用到了attention中，只和前景做cross attention，加快模型的收敛；
+2. attention加入了FPN的相关机制
+3. 做了一些效率优化，针对匹配和最终的训练loss，加入了采样mask的策略，使得计算量降低。
+
+
