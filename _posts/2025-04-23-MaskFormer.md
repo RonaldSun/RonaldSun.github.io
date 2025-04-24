@@ -1,7 +1,7 @@
 ---
 
 title: MaskFormer & Mask2Former
-date: 2025-04-24 20:31:33 +0800
+date: 2025-04-23 20:31:33 +0800
 categories: [论文, segmentation]
 tags: [论文, segmentation]
 pin: true
