@@ -122,7 +122,7 @@ DAB:Dynamic anchor boxes
 在训练阶段，把query复制k-1份，形成k组query，每一组都和GT匹配、计算loss，每一组共享相同的decoder；预测阶段只用第一组query来进行。
 相当于做了数据增强，同样一份数据会产生更多样的loss来监督模型收敛。最终可以带来1%左右的AP提升。
 
-## Co-DETR
+## Co-DETR（2023 Sensetime）
 
 DETRs with Collaborative Hybrid Assignments Training。
 
