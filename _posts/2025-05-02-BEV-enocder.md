@@ -24,7 +24,7 @@ splat的过程中采用了sort+cumsum来避免padding导致的额外显存占用
 - BEV空间中的每个格子都是一个query，每个query会用N个高度值往图像上投影，然后使用deformable attention提取特征，投影得到的坐标就是reference point，N个特征加起来，不同view的特征取平均得到最终的特征；
 - 对于时序的feature，会保留上一个时刻的BEV feature，然后通过ego的运动转到当前帧中，与当前的bev特征concat作为value做deformable attention，其中offset是由当前时刻和上一时刻concat的结果来算的，因为考虑到运动物体，前后两个时刻offset不是等价的。
 
-需要注意的是，再图像中提取BEV特征时，是用bev query取预测2D空间中的offset，然后获取图像特征的，而不是获取3D offset，这一点文中没有进行深入讨论。
+需要注意的是，再图像中提取BEV特征时，是用bev query取预测2D空间中的offset，然后获取图像特征的，而不是获取3D offset，因为在BEV空间中也会做Deformable attention。
 
 ## GKT(2022 Horizon)
 
