@@ -1,7 +1,7 @@
 ---
 
 title: Map感知系列总结
-date: 2025-04-24 11:19:42 +0800
+date: 2025-07-25 11:40:00 +0800
 categories: [论文, map]
 tags: [论文, map]
 pin: true
@@ -55,3 +55,9 @@ MapTR的query分为N个instance query和M个point query，两者相加，每个i
    - 用第3步的query去和第4步的feature做cross-attention，生成hybrid query
    - 再用hybrid query去和BEV feature做deformable cross attention
 6. 借鉴DN-DETR，添加了DeNoising的步骤，对GT添加了一些噪声添加到query中加强模型的回归监督效果
+
+## MapQR (2024 Shanghai Jiao Tong & Huixi tech)
+
+1. Scatter-and-Gather Query: scatter指的是把instance query复制n份，和ref points的PE相加得到point query；gather指的是把所有的point query cat之后经过MLP得到新的instance query；
+2. 先用instance query做self attention，scatter操作之后跟BEV feature做cross attention；做self attn的时候发现给instance加了pe没有提升效果，最后就没有加；
+3. BEV encoder用了改进后的GKT算法，用query+linear预测高度，替换原来的固定高度。
